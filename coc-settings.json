@@ -1,0 +1,36 @@
+{
+  "java.home": "/Users/zhangzhenghan/app/jdk-18.0.2.1.jdk/Contents/Home",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-18",
+      "path": "/Users/zhangzhenghan/app/jdk-18.0.2.1.jdk/Contents/Home"
+    },
+    {
+      "name": "JavaSE-1.8",
+      "path": "/Users/zhangzhenghan/Library/Java/JavaVirtualMachines/corretto-1.8.0_312/Contents/Home",
+      "default": true
+    }
+  ],
+  "java.jdt.ls.vmargs": "-javaagent:/Users/zhangzhenghan/vim/archlinux/vim/java/lombok.jar -Xbootclasspath/a:/Users/zhangzhenghan/vim/archlinux/vim/java/lombok.jar",
+  "xml.java.home": "/Users/zhangzhenghan/app/jdk-18.0.2.1.jdk/Contents/Home",
+  "suggest.noselect": true,
+  "suggest.enablePreselect": false,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportUnboundVariable": "warning"
+  },
+  "explorer.width": 30,
+  "explorer.buffer.root.template": "[icon & 1] OPEN EDITORS",
+  "explorer.file.root.template": "[icon & 1] PROJECT ([root])",
+  "explorer.file.child.template": "[git | 2] [selection | clip | 1] [indent][icon | 1] [diagnosticError & 1][filename omitCenter 1][modified][readonly] [linkIcon & 1][link growRight 1 omitCenter 5]",
+  "explorer.file.showHiddenFiles": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.previewAction.onHover": false,
+  "explorer.keyMappings.global": {
+    "<cr>": [
+      "expandable?",
+      ["expanded?", "collapse", "expand"],
+      "open"
+    ]
+  }
+}
+
