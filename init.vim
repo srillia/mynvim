@@ -578,10 +578,10 @@ endfunction
 function! s:read_config_template_into_buffer(template)
 	" has to be a function to avoid the extra space fzf#run insers otherwise
     call EnsureDirExists(".vim")
-	execute '0r ~/.vim/prosrun/config/'.a:template
+	execute '0r ~/.vim/config/prosrun/'.a:template
 endfunction
 command! -bang -nargs=* LoadConfigTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.vim/prosrun/config/',
+			\   'source': 'ls -1 ~/.vim/config/prosrun/',
 			\   'down': 20,
 			\   'sink': function('<sid>read_config_template_into_buffer')
 			\ })
