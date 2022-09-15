@@ -54,6 +54,12 @@ Plug 'mbbill/undotree'
 " fzf
 " Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+" optional for icon support
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kevinhwang91/rnvimr'
+Plug 'airblade/vim-rooter'
+Plug 'pechorin/any-jump.vim'
 
 " markdown
 Plug 'godlygeek/tabular'
@@ -323,8 +329,6 @@ nnoremap   <silent>   <C-\><C-,>    :FloatermUpdate --height=0.99 --width=0.6<CR
 tnoremap   <silent>   <C-\><C-,>    <C-\><C-n>:FloatermUpdate --height=0.99 --width=0.6<CR>
 nnoremap   <silent>   <C-\><C-.>    :FloatermUpdate --height=0.4 --width=0.99<CR>
 tnoremap   <silent>   <C-\><C-.>    <C-\><C-n>:FloatermUpdate --height=0.4 --width=0.99<CR>
-nnoremap   <silent>   <C-\><C-r>    :FloatermNew --height=0.6 --width=0.6 --wintype=float --name=ranger --title=ranger --position=center --autoclose=2 ranger<CR>
-tnoremap   <silent>   <C-\><C-r>    <C-\><C-n>:FloatermHide<CR>:FloatermNew --height=0.6 --width=0.6 --wintype=float --name=ranger --title=ranger --position=center --autoclose=2 ranger<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -545,6 +549,27 @@ autocmd User EasyMotionPromptEnd :let b:coc_diagnostic_disable = 0
 " coc-snippets
 let g:coc_snippet_next = '<tab>'
 
+" rnvimr
+tnoremap <silent> <leader>rr <C-\><C-n>:RnvimrResize<CR>
+nnoremap <silent> <leader>rg :RnvimrToggle<CR>
+tnoremap <silent> <leader>rg <C-\><C-n>:RnvimrToggle<CR>
+
+" any-jump
+let g:any_jump_disable_default_keybindings = 1
+" Normal mode: Jump to definition under cursor
+nnoremap <leader>aj :AnyJump<CR>
+" Visual mode: jump to selected text in visual mode
+xnoremap <leader>aj :AnyJumpVisual<CR>
+" Normal mode: open previous opened file (after jump)
+nnoremap <leader>ab :AnyJumpBack<CR>
+" Normal mode: open last closed search window again
+nnoremap <leader>al :AnyJumpLastResults<CR>
+
+" fzf-lua
+nnoremap <leader>lf <cmd>lua require('fzf-lua').files()<CR>
+
+
+
 " :CloseAllFloatingWindows
 " Closes all floating windows, useful for cleaning up messed up pop-ups
 if has('nvim-0.4.0')
@@ -564,6 +589,7 @@ lua<<EOF
 EOF
 endif
 noremap <silent> <leader>ca  :CloseAllFloatingWindows<CR>
+
 
 " set vitual select colorscheme
 if (&background == 'dark')
@@ -585,7 +611,7 @@ endif
 " async config
 let g:asyncrun_open = 6
 
-function! EnsureDirExists (dir)
+function! s:EnsureDirExists (dir)
   if !isdirectory(a:dir)
     if exists("*mkdir")
       call mkdir(a:dir,'p')
@@ -599,24 +625,24 @@ endfunction
 let s:read_path = '~/.vim/config/prosrun/' 
 
 " my run mutil projects
-function! s:read_config_template_into_buffer(template)
+function! Read_config_template_into_buffer(template)
 	" has to be a function to avoid the extra space fzf#run insers otherwise
 	execute '0r '.s:read_path.a:template
 endfunction
 
-function LoadConfigTemplate(path)
+function s:LoadConfigTemplate(path)
     let s:read_path = a:path
     call fzf#run({
                 \ 'source': 'ls -1 '.s:read_path,
                 \ 'down': 20,
-                \ 'sink': function('<sid>read_config_template_into_buffer')
+                \ 'sink': function('Read_config_template_into_buffer')
                 \ })
 endfunction
-noremap <leader>pr :tabe .vim/prosrun.vim<CR>:call EnsureDirExists(".vim")<CR>:call LoadConfigTemplate('~/.vim/config/prosrun/')<CR>
-noremap <leader>vs :tabe .vimspector.json<CR>:call LoadConfigTemplate('~/.vim/config/vimspector/config')<CR>
+noremap <leader>pr :tabe .vim/prosrun.vim<CR>:call <sid>EnsureDirExists(".vim")<CR>:call <sid>LoadConfigTemplate('~/.vim/config/prosrun/')<CR>
+noremap <leader>vs :tabe .vimspector.json<CR>:call <sid>LoadConfigTemplate('~/.vim/config/vimspector/config')<CR>
     
-noremap <leader>mr :source .vim/prosrun.vim<CR>
+noremap <silent> <leader>mr :source .vim/prosrun.vim<CR>
 
-noremap <LEADER>gi :FzfGitignore<CR>
+noremap <silent> <LEADER>gi :CocList gitignore<CR>
 
 " source ~/vim/myvim/helloworld.vim

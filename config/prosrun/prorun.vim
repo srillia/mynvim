@@ -1,3 +1,4 @@
+" JAVA MUTIL PROS RUN
 let pros = [
             \"mall4cloud-auth"
             \,"mall4cloud-biz"
@@ -14,21 +15,12 @@ let pros = [
             " \,"mall4cloud-user"
             " \]
 
+function! s:JavaRunCommand(pro)
+    return 'java -jar '.a:pro.'/target/*.jar -Dspring.profiles.active dev'
+endfunction
+
 for pro in pros
-let cmd ='FloatermNew --height=0.99 --width=0.6 --wintype=float --name='.pro.' --title='.pro.' --position=right java -jar '.pro.'/target/*.jar -Dspring.profiles.active dev'
-" let cmd ='FloatermNew --height=0.99 --width=0.6 --wintype=float --name='.pro.' --title='.pro.' --position=right pwd'
-" echo cmd
+let cmd ='FloatermNew --height=0.99 --width=0.6 --wintype=float --name='.pro.' --title='.pro.' --position=right '.<sid>JavaRunCommand(pro)
 execute cmd
 endfor
 
-" java -jar mall4cloud-biz/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-gateway/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-leaf/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-multishop/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-order/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-payment/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-platform/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-product/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-rbac/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-search/target/*.jar -Dspring.profiles.active dev
-" java -jar mall4cloud-user/target/*.jar -Dspring.profiles.active dev
