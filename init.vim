@@ -27,6 +27,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " vim-floaterm
 Plug 'voldikss/vim-floaterm'
+Plug 'voldikss/fzf-floaterm'
 
 " gruvbox
 Plug 'morhetz/gruvbox'
@@ -40,14 +41,14 @@ Plug 'tpope/vim-commentary'
 " undotree
 Plug 'mbbill/undotree'
 
-" asyncrun
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
-" install telescope
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-" install this integration
-Plug 'GustavoKatel/telescope-asynctasks.nvim'
+" " asyncrun
+" Plug 'skywind3000/asynctasks.vim'
+" Plug 'skywind3000/asyncrun.vim'
+" " install telescope
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
+" " install this integration
+" Plug 'GustavoKatel/telescope-asynctasks.nvim'
 
 " fzf
 " Plug 'junegunn/fzf.vim'
@@ -200,16 +201,6 @@ let g:ruby_host_prog = '/usr/local/bin/neovim-node-host'
 
 " vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
-function! s:read_template_into_buffer(template)
-	" has to be a function to avoid the extra space fzf#run insers otherwise
-	execute '0r ~/.vim/vimspector/config/'.a:template
-endfunction
-command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.vim/vimspector/config/',
-			\   'down': 20,
-			\   'sink': function('<sid>read_template_into_buffer')
-			\ })
-noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
 
 " 调试c++ 需要先安装gdb,先编译 g++ foo.cpp -ggdb -o foo
 nnoremap <leader>dd :call vimspector#Launch()<CR>
@@ -306,7 +297,6 @@ function! Lightline_FloatermInfo() abort
 endfunction
 let g:floaterm_wintype = 'split'
 let g:floaterm_height = 0.4
-let g:floaterm_height = 0.4
 let g:floaterm_shell = 'fish'
 nnoremap   <silent>   <C-\><C-t>    :FloatermToggle<CR>
 tnoremap   <silent>   <C-\><C-t>    <C-\><C-n>:FloatermToggle<CR>
@@ -322,6 +312,18 @@ nnoremap   <silent>   <C-\><C-k>    :FloatermKill<CR>
 tnoremap   <silent>   <C-\><C-k>    <C-\><C-n>:FloatermKill<CR>:FloatermLast<CR>
 nnoremap   <silent>   <C-\><C-d>    :FloatermKill!<CR>
 tnoremap   <silent>   <C-\><C-d>    <C-\><C-n>:FloatermKill!<CR>:FloatermLast<CR>
+nnoremap   <silent>   <C-\><C-u>    <C-u>
+tnoremap   <silent>   <C-\><C-u>    <C-\><C-n><C-u>
+nnoremap   <silent>   <C-\><C-s>    :Floaterms<CR>
+tnoremap   <silent>   <C-\><C-s>    <C-\><C-n>:FloatermHide<CR>:Floaterms<CR>
+nnoremap   <silent>   <C-\><C-m>    :FloatermUpdate --height=0.99 --width=0.99<CR>
+tnoremap   <silent>   <C-\><C-m>    <C-\><C-n>:FloatermUpdate --height=0.99 --width=0.99<CR>
+nnoremap   <silent>   <C-\><C-,>    :FloatermUpdate --height=0.99 --width=0.6<CR>
+tnoremap   <silent>   <C-\><C-,>    <C-\><C-n>:FloatermUpdate --height=0.99 --width=0.6<CR>
+nnoremap   <silent>   <C-\><C-.>    :FloatermUpdate --height=0.4 --width=0.99<CR>
+tnoremap   <silent>   <C-\><C-.>    <C-\><C-n>:FloatermUpdate --height=0.4 --width=0.99<CR>
+nnoremap   <silent>   <C-\><C-r>    :FloatermNew --height=0.6 --width=0.6 --wintype=float --name=ranger --title=ranger --position=center --autoclose=2 ranger<CR>
+tnoremap   <silent>   <C-\><C-r>    <C-\><C-n>:FloatermHide<CR>:FloatermNew --height=0.6 --width=0.6 --wintype=float --name=ranger --title=ranger --position=center --autoclose=2 ranger<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -553,13 +555,14 @@ endif
 " neovide setting
 if exists("g:neovide")
     " Put anything you want to happen only in Neovide here
-    " let g:neovide_fullscreen=v:true
+    let g:neovide_fullscreen=v:true
     " let g:neovide_transparency=0.9
-    let g:neovide_remember_window_size = v:true
+    " let g:neovide_remember_window_size = v:true
 else
     hi Normal guibg=NONE ctermbg=NONE
 endif
 
+" async config
 let g:asyncrun_open = 6
 
 function! EnsureDirExists (dir)
@@ -573,18 +576,25 @@ function! EnsureDirExists (dir)
   endif
 endfunction
 
+let s:read_path = '~/.vim/config/prosrun/' 
 
 " my run mutil projects
 function! s:read_config_template_into_buffer(template)
 	" has to be a function to avoid the extra space fzf#run insers otherwise
-    call EnsureDirExists(".vim")
-	execute '0r ~/.vim/config/prosrun/'.a:template
+	execute '0r '.s:read_path.a:template
 endfunction
-command! -bang -nargs=* LoadConfigTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.vim/config/prosrun/',
-			\   'down': 20,
-			\   'sink': function('<sid>read_config_template_into_buffer')
-			\ })
-noremap <leader>pr :tabe .vim/prosrun.vim<CR>:LoadConfigTemplate<CR>
+
+function LoadConfigTemplate(path)
+    let s:read_path = a:path
+    call fzf#run({
+                \   'source': 'ls -1 '.s:read_path,
+                \   'down': 20,
+                \   'sink': function('<sid>read_config_template_into_buffer')
+                \ })
+endfunction
+noremap <leader>pr :tabe .vim/prosrun.vim<CR>:call EnsureDirExists(".vim")<CR>:call LoadConfigTemplate('~/.vim/config/prosrun/')<CR>
+noremap <leader>vs :tabe .vimspector.json<CR>:call LoadConfigTemplate('~/.vim/config/vimspector/config')<CR>
+    
+noremap <leader>mr :source .vim/prosrun.vim<CR>
 
 " source ~/vim/myvim/helloworld.vim
