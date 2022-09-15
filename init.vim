@@ -41,6 +41,7 @@ Plug 'tpope/vim-commentary'
 " undotree
 Plug 'mbbill/undotree'
 
+
 " " asyncrun
 " Plug 'skywind3000/asynctasks.vim'
 " Plug 'skywind3000/asyncrun.vim'
@@ -56,9 +57,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " markdown
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/mathjax-support-for-mkdp'
-Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 " grep
 " Plug 'dkprice/vim-easygrep'
@@ -218,6 +218,7 @@ nnoremap <silent> <leader>mt :MaximizerToggle<CR>
 nmap <leader>ws <Plug>(wildfire-quick-select)
 
 " md preview
+let g:mkdp_auto_close = 0
 
 nmap <silent> <leader>mp <Plug>MarkdownPreview
 nmap <silent> <leader>mk <Plug>StopMarkdownPreview
@@ -333,7 +334,26 @@ nnoremap  <leader>cl :CocList<SPACE>
 nnoremap  <leader>cc :CocCommand<SPACE>
 
 
-let g:coc_global_extensions = ['coc-json',  'coc-git', 'coc-vimlsp', 'coc-tsserver', 'coc-java', 'coc-go', 'coc-clangd', 'coc-snippets', 'coc-pyright', 'coc-vimlsp', 'coc-yaml',  'coc-sql', 'coc-xml', 'coc-fzf-preview', 'coc-explorer']
+let g:coc_global_extensions = ['coc-json',  
+            \ 'coc-git', 
+            \ 'coc-vimlsp',
+            \ 'coc-tsserver',
+            \ 'coc-java',
+            \ 'coc-go',
+            \ 'coc-clangd',
+            \ 'coc-snippets',
+            \ 'coc-pyright',
+            \ 'coc-vimlsp',
+            \ 'coc-yaml',
+            \ 'coc-sql',
+            \ 'coc-xml',
+            \ 'coc-fzf-preview',
+            \ 'coc-gitignore',
+            \ 'coc-markdownlint',
+            \ 'coc-marketplace',
+            \ 'coc-floaterm',
+            \ 'coc-vetur',
+            \ 'coc-explorer']
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -587,14 +607,16 @@ endfunction
 function LoadConfigTemplate(path)
     let s:read_path = a:path
     call fzf#run({
-                \   'source': 'ls -1 '.s:read_path,
-                \   'down': 20,
-                \   'sink': function('<sid>read_config_template_into_buffer')
+                \ 'source': 'ls -1 '.s:read_path,
+                \ 'down': 20,
+                \ 'sink': function('<sid>read_config_template_into_buffer')
                 \ })
 endfunction
 noremap <leader>pr :tabe .vim/prosrun.vim<CR>:call EnsureDirExists(".vim")<CR>:call LoadConfigTemplate('~/.vim/config/prosrun/')<CR>
 noremap <leader>vs :tabe .vimspector.json<CR>:call LoadConfigTemplate('~/.vim/config/vimspector/config')<CR>
     
 noremap <leader>mr :source .vim/prosrun.vim<CR>
+
+noremap <LEADER>gi :FzfGitignore<CR>
 
 " source ~/vim/myvim/helloworld.vim
