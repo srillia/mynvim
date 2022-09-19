@@ -15,8 +15,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " vim-autoformat
 Plug 'Chiel92/vim-autoformat'
 
-"auto-pairs
-Plug 'jiangmiao/auto-pairs'
+"auto-pairs  使用coc-pairs 下面这个和coc自动补全有冲突
+" Plug 'jiangmiao/auto-pairs'
 
 " nerdtree
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -54,7 +54,9 @@ Plug 'mbbill/undotree'
 " fzf
 " Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+if has('nvim')
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+endif
 " optional for icon support
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kevinhwang91/rnvimr'
@@ -83,7 +85,9 @@ Plug 'puremourning/vimspector', { 'do': './install_gadget.py --enable-go'  }
 
 " On-demand lazy load
 " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!']  }
+if has('nvim')
 Plug 'folke/which-key.nvim'
+endif
 
 " Taglist
 Plug 'liuchengxu/vista.vim'
@@ -338,6 +342,7 @@ tnoremap   <silent>   <C-\><C-.>    <C-\><C-n>:FloatermUpdate --height=0.4 --wid
 nnoremap  <leader>cl :CocList<SPACE>
 nnoremap  <leader>cc :CocCommand<SPACE>
 
+" autocmd FileType markdown let b:coc_pairs_disabled = ['`']
 
 let g:coc_global_extensions = ['coc-json',  
             \ 'coc-git', 
@@ -352,6 +357,7 @@ let g:coc_global_extensions = ['coc-json',
             \ 'coc-yaml',
             \ 'coc-sql',
             \ 'coc-xml',
+            \ 'coc-pairs',
             \ 'coc-fzf-preview',
             \ 'coc-gitignore',
             \ 'coc-markdownlint',
@@ -567,6 +573,7 @@ nnoremap <leader>ab :AnyJumpBack<CR>
 " Normal mode: open last closed search window again
 nnoremap <leader>al :AnyJumpLastResults<CR>
 
+if  has('nvim')
 " fzf-lua
 nnoremap <leader>lf <cmd>lua require('fzf-lua').files()<CR>
 
@@ -579,6 +586,8 @@ lua << EOF
   }
 EOF
 nnoremap <silent> <SPACE>wk :WhichKey<CR>
+endif
+
 
 " auto-pair
 let g:AutoPairsShortcutToggle = '<leader>ap'
