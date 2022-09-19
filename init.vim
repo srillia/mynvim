@@ -61,7 +61,7 @@ Plug 'kevinhwang91/rnvimr'
 Plug 'airblade/vim-rooter'
 Plug 'pechorin/any-jump.vim'
 
-" markdown
+" markdown-preview.nvim', {arkdown
 Plug 'godlygeek/tabular'
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
@@ -82,7 +82,8 @@ Plug 'nvim-pack/nvim-spectre'
 Plug 'puremourning/vimspector', { 'do': './install_gadget.py --enable-go'  }
 
 " On-demand lazy load
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!']  }
+" Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!']  }
+Plug 'folke/which-key.nvim'
 
 " Taglist
 Plug 'liuchengxu/vista.vim'
@@ -158,7 +159,6 @@ noremap <silent> <leader>sn :source ~/.config/nvim/init.vim<CR>:noh<CR>
 noremap <silent> <leader>sw :w !sudo tee %<CR>
 noremap <silent> <SPACE>y  "+y
 noremap <silent> <SPACE>p  "+p
-noremap <silent> <F2>  :noh<CR>
 noremap <leader>fl  :r !figlet<SPACE>
 " shift+上下左右键分别来调整窗口大小
 nnoremap <S-Down> :resize -1<CR>
@@ -218,6 +218,7 @@ nmap <leader>dj :CocCommand java.debug.vimspector.start<CR>
 
 
 " vim-maximizer
+let g:maximizer_set_default_mapping = 0
 nnoremap <silent> <leader>mt :MaximizerToggle<CR>
 
 
@@ -227,7 +228,7 @@ nmap <leader>ws <Plug>(wildfire-quick-select)
 let g:mkdp_auto_close = 0
 
 nmap <silent> <leader>mp <Plug>MarkdownPreview
-nmap <silent> <leader>mk <Plug>StopMarkdownPreview
+nmap <silent> <leader>ms <Plug>MarkdownPreviewStop
 
 " ack
 cnoreabbrev Ack Ack!
@@ -310,10 +311,10 @@ tnoremap   <silent>   <C-\><C-t>    <C-\><C-n>:FloatermToggle<CR>
 " open from cur file
 nnoremap   <silent>   <C-\><C-o>    :FloatermNew! cd %:p:h<CR>
 tnoremap   <silent>   <C-\><C-o>    <C-\><C-n>:FloatermHide<CR>:FloatermNew! cd %:p:h<CR>
-nnoremap   <silent>   <C-\><C-b>    :FloatermPrev<CR>
-tnoremap   <silent>   <C-\><C-b>    <C-\><C-n>:FloatermPrev<CR>
-nnoremap   <silent>   <C-\><C-f>    :FloatermNext<CR>
-tnoremap   <silent>   <C-\><C-f>    <C-\><C-n>:FloatermNext<CR>
+nnoremap   <silent>   <C-,>    :FloatermPrev<CR>
+tnoremap   <silent>   <C-,>    <C-\><C-n>:FloatermPrev<CR>
+nnoremap   <silent>   <C-.>    :FloatermNext<CR>
+tnoremap   <silent>   <C-.>    <C-\><C-n>:FloatermNext<CR>
 
 nnoremap   <silent>   <C-\><C-k>    :FloatermKill<CR>
 tnoremap   <silent>   <C-\><C-k>    <C-\><C-n>:FloatermKill<CR>:FloatermLast<CR>
@@ -325,8 +326,8 @@ nnoremap   <silent>   <C-\><C-s>    :Floaterms<CR>
 tnoremap   <silent>   <C-\><C-s>    <C-\><C-n>:FloatermHide<CR>:Floaterms<CR>
 nnoremap   <silent>   <C-\><C-m>    :FloatermUpdate --height=0.99 --width=0.99<CR>
 tnoremap   <silent>   <C-\><C-m>    <C-\><C-n>:FloatermUpdate --height=0.99 --width=0.99<CR>
-nnoremap   <silent>   <C-\><C-,>    :FloatermUpdate --height=0.99 --width=0.6<CR>
-tnoremap   <silent>   <C-\><C-,>    <C-\><C-n>:FloatermUpdate --height=0.99 --width=0.6<CR>
+nnoremap   <silent>   <C-\><C-,>    :FloatermUpdate --height=0.99 --width=0.85<CR>
+tnoremap   <silent>   <C-\><C-,>    <C-\><C-n>:FloatermUpdate --height=0.99 --width=0.85<CR>
 nnoremap   <silent>   <C-\><C-.>    :FloatermUpdate --height=0.4 --width=0.99<CR>
 tnoremap   <silent>   <C-\><C-.>    <C-\><C-n>:FloatermUpdate --height=0.4 --width=0.99<CR>
 
@@ -488,21 +489,21 @@ let g:lightline = {
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>cd  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>ce  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>cc  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <space>co  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <space>cs  :<C-u>CocList -I symbols<cr>
+" " Do default action for next item.
+" nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" " Do default action for previous item.
+" nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>r  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>cr  :<C-u>CocListResume<CR>
 
 " coc-java
 nnoremap <silent><nowait> <leader>ju  :CocCommand java.projectConfiguration.update<CR>
@@ -550,6 +551,7 @@ autocmd User EasyMotionPromptEnd :let b:coc_diagnostic_disable = 0
 let g:coc_snippet_next = '<tab>'
 
 " rnvimr
+let g:rnvimr_pick_enable = 1
 tnoremap <silent> <leader>rr <C-\><C-n>:RnvimrResize<CR>
 nnoremap <silent> <leader>rg :RnvimrToggle<CR>
 tnoremap <silent> <leader>rg <C-\><C-n>:RnvimrToggle<CR>
@@ -568,7 +570,30 @@ nnoremap <leader>al :AnyJumpLastResults<CR>
 " fzf-lua
 nnoremap <leader>lf <cmd>lua require('fzf-lua').files()<CR>
 
+" which-key
+lua << EOF
+  require("which-key").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+nnoremap <silent> <SPACE>wk :WhichKey<CR>
 
+" auto-pair
+let g:AutoPairsShortcutToggle = '<leader>ap'
+let g:AutoPairsShortcutJump = '<C-p>'
+
+" multi=cursor
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_start_word_key      = '<C-n>'
+let g:multi_cursor_select_all_word_key = '<SPACE>n'
+let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 
 " :CloseAllFloatingWindows
 " Closes all floating windows, useful for cleaning up messed up pop-ups
