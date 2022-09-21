@@ -3,6 +3,10 @@
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
+
 " vim-go
 Plug 'fatih/vim-go', { 'tag': '*' }
 
@@ -15,8 +19,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " vim-autoformat
 Plug 'Chiel92/vim-autoformat'
 
-"auto-pairs  使用coc-pairs 下面这个和coc自动补全有冲突
+"auto-pairs   下面这个和coc自动补全有冲突, 使用一个fork维护版本 LunarWatcher/auto-pairs
 " Plug 'jiangmiao/auto-pairs'
+Plug 'LunarWatcher/auto-pairs'
 
 " nerdtree
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -143,6 +148,7 @@ set softtabstop=4   " backspace
 set shiftwidth=4    " indent width
 set expandtab       " expand tab to space
 set splitright
+" set termguicolors
 
 
 autocmd FileType json,sh setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
@@ -163,7 +169,7 @@ noremap <silent> <leader>sn :source ~/.config/nvim/init.vim<CR>:noh<CR>
 noremap <silent> <leader>sw :w !sudo tee %<CR>
 noremap <silent> <SPACE>y  "+y
 noremap <silent> <SPACE>p  "+p
-noremap <leader>fl  :r !figlet<SPACE>
+noremap <leader>fi  :r !figlet<SPACE>
 " shift+上下左右键分别来调整窗口大小
 nnoremap <S-Down> :resize -1<CR>
 nnoremap <S-Up> :resize +1<CR>
@@ -305,7 +311,7 @@ function! Lightline_FloatermInfo() abort
   endif
   let cur = floaterm#buflist#curr()
   let idx = index(buffers, cur) + 1
-  return printf('floaterm %s/%s', idx, cnt)
+  return printf('Floaterm %s/%s', idx, cnt)
 endfunction
 let g:floaterm_wintype = 'split'
 let g:floaterm_height = 0.4
@@ -339,8 +345,6 @@ tnoremap   <silent>   <C-\><C-.>    <C-\><C-n>:FloatermUpdate --height=0.4 --wid
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""      coc.nvim       """"""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap  <leader>cl :CocList<SPACE>
-nnoremap  <leader>cc :CocCommand<SPACE>
 
 " autocmd FileType markdown let b:coc_pairs_disabled = ['`']
 
@@ -357,7 +361,6 @@ let g:coc_global_extensions = ['coc-json',
             \ 'coc-yaml',
             \ 'coc-sql',
             \ 'coc-xml',
-            \ 'coc-pairs',
             \ 'coc-fzf-preview',
             \ 'coc-gitignore',
             \ 'coc-markdownlint',
@@ -495,21 +498,21 @@ let g:lightline = {
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>cd  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <leader>cd  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>ce  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <leader>ce  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>cc  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <leader>cc  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>co  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <leader>co  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>cs  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <leader>cs  :<C-u>CocList -I symbols<cr>
 " " Do default action for next item.
-" nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
 " " Do default action for previous item.
-" nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>cr  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <leader>cr  :<C-u>CocListResume<CR>
 
 " coc-java
 nnoremap <silent><nowait> <leader>ju  :CocCommand java.projectConfiguration.update<CR>
@@ -548,7 +551,8 @@ if executable('fish')
     let $SHELL = 'bash'
 endif
 
-:nmap <leader>tt  <Cmd>CocCommand explorer<CR>
+nmap <leader>tt  <Cmd>CocCommand explorer<CR>
+nmap <Leader>er <Cmd>call CocAction('runCommand', 'explorer.doAction', 'closest', ['reveal:0'], [['relative', 0, 'file']])<CR>
 
 autocmd User EasyMotionPromptBegin :let b:coc_diagnostic_disable = 1
 autocmd User EasyMotionPromptEnd :let b:coc_diagnostic_disable = 0
@@ -575,17 +579,28 @@ nnoremap <leader>al :AnyJumpLastResults<CR>
 
 if  has('nvim')
 " fzf-lua
-nnoremap <leader>lf <cmd>lua require('fzf-lua').files()<CR>
+nnoremap <leader>fl <cmd>lua require('fzf-lua').files()<CR>
 
 " which-key
 lua << EOF
-  require("which-key").setup {
+   require("which-key").setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
-  }
+    }
+   require('nvim-treesitter.configs').setup {
+     highlight = {
+       enable = true,
+       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+       -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+       -- Using this option may slow down your editor, and you may see some duplicate highlights.
+       -- Instead of true it can also be a list of languages
+       additional_vim_regex_highlighting = false,
+       }
+   }
 EOF
-nnoremap <silent> <SPACE>wk :WhichKey<CR>
+
+nnoremap <silent> <leader>wk :WhichKey<CR>
 endif
 
 
@@ -622,7 +637,7 @@ lua<<EOF
   end
 EOF
 endif
-noremap <silent> <leader>ca  :CloseAllFloatingWindows<CR>
+noremap <silent> <leader>ka  :CloseAllFloatingWindows<CR>
 
 
 " set vitual select colorscheme
@@ -678,5 +693,8 @@ noremap <leader>vs :tabe .vimspector.json<CR>:call <sid>LoadConfigTemplate('~/.v
 noremap <silent> <leader>mr :source .vim/prosrun.vim<CR>
 
 noremap <silent> <LEADER>gi :CocList gitignore<CR>
+
+" rooter, silent can anti statusline flicker
+let g:rooter_silent_chdir = 1
 
 " source ~/vim/myvim/helloworld.vim
