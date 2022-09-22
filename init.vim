@@ -63,7 +63,6 @@ if has('nvim')
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 endif
 " optional for icon support
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kevinhwang91/rnvimr'
 Plug 'airblade/vim-rooter'
 Plug 'pechorin/any-jump.vim'
@@ -115,6 +114,9 @@ Plug 'easymotion/vim-easymotion'
 
 " multiple-cursors
 Plug 'terryma/vim-multiple-cursors'
+
+" HTML, CSS, JavaScript, Typescript, PHP, JSON, etc.
+Plug 'leafOfTree/vim-svelte-plugin'
 
 " Initialize plugin system
 call plug#end()
@@ -605,7 +607,18 @@ endif
 
 
 " auto-pair
+
+" let g:AutoPairs = {'(':')', '[':']', '{':'}','<':'>',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
 let g:AutoPairsShortcutToggle = '<leader>ap'
+let g:AutoPairsLanguagePairs =  {
+        \ "erlang": {'<<': '>>'},
+        \ "tex": {'``': "''" },
+        \ "html": {'<': '>'},
+        \ "vue": {'<': '>'},
+        \ 'vim': {'\v(^\s*\zs"\ze|".*"\s*\zs"\ze$|^(\s*[a-zA-Z]+\s*([a-zA-Z]*\s*\=\s*)?)@!(\s*\zs"\ze((\\\"|[^"])*$)@=))': ''},
+        \ 'rust': {'\w\zs<': '>', '&\zs''': ''},
+        \ 'php': {'<?': '?>//k]', '<?php': '?>//k]'}
+        \ }
 let g:AutoPairsShortcutJump = '<C-p>'
 
 " multi=cursor
@@ -689,7 +702,7 @@ function s:LoadConfigTemplate(path)
 endfunction
 noremap <leader>pr :tabe .vim/prosrun.vim<CR>:call <sid>EnsureDirExists(".vim")<CR>:call <sid>LoadConfigTemplate('~/.vim/config/prosrun/')<CR>
 noremap <leader>vs :tabe .vimspector.json<CR>:call <sid>LoadConfigTemplate('~/.vim/config/vimspector/config')<CR>
-    
+   
 noremap <silent> <leader>mr :source .vim/prosrun.vim<CR>
 
 noremap <silent> <LEADER>gi :CocList gitignore<CR>

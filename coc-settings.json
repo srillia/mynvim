@@ -32,7 +32,6 @@
       ["expanded?", "collapse", "expand"],
       "open"
     ]
-  },
-  "svelte.enable-ts-plugin": true
+  }
 }
 
