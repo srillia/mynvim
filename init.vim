@@ -610,15 +610,15 @@ endif
 
 " let g:AutoPairs = {'(':')', '[':']', '{':'}','<':'>',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
 let g:AutoPairsShortcutToggle = '<leader>ap'
-let g:AutoPairsLanguagePairs =  {
-        \ "erlang": {'<<': '>>'},
-        \ "tex": {'``': "''" },
-        \ "html": {'<': '>'},
-        \ "vue": {'<': '>'},
-        \ 'vim': {'\v(^\s*\zs"\ze|".*"\s*\zs"\ze$|^(\s*[a-zA-Z]+\s*([a-zA-Z]*\s*\=\s*)?)@!(\s*\zs"\ze((\\\"|[^"])*$)@=))': ''},
-        \ 'rust': {'\w\zs<': '>', '&\zs''': ''},
-        \ 'php': {'<?': '?>//k]', '<?php': '?>//k]'}
-        \ }
+" let g:AutoPairsLanguagePairs =  {
+"         \ "erlang": {'<<': '>>'},
+"         \ "tex": {'``': "''" },
+"         \ "html": {'<': '>'},
+"         \ "vue": {'<': '>'},
+"         \ 'vim': {'\v(^\s*\zs"\ze|".*"\s*\zs"\ze$|^(\s*[a-zA-Z]+\s*([a-zA-Z]*\s*\=\s*)?)@!(\s*\zs"\ze((\\\"|[^"])*$)@=))': ''},
+"         \ 'rust': {'\w\zs<': '>', '&\zs''': ''},
+"         \ 'php': {'<?': '?>//k]', '<?php': '?>//k]'}
+"         \ }
 let g:AutoPairsShortcutJump = '<C-p>'
 
 " multi=cursor
