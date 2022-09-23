@@ -48,8 +48,8 @@ let g:python3_host_prog = '/usr/local/bin/python3.9'
 noremap <silent> <leader>sv :source ~/.vimrc<CR>:noh<CR>
 noremap <silent> <leader>sn :source ~/.config/nvim/init.vim<CR>:noh<CR>
 noremap <silent> <leader>sw :w !sudo tee %<CR>
-noremap <silent> <SPACE>y  "+y
-noremap <silent> <SPACE>p  "+p
+" noremap <silent> <SPACE>y  "+y
+" noremap <silent> <SPACE>p  "+p
 noremap <leader>fi  :r !figlet<SPACE>
 " shift+上下左右键分别来调整窗口大小
 nnoremap <S-Down> :resize -1<CR>

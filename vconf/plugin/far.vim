@@ -5,7 +5,7 @@
 " |  _| (_| | |   
 " |_|  \__,_|_|   
                 
-let g:far#ignore_files=[ '~/.vim/config/farignore' ]
+let g:far#ignore_files=[ '~/.vim/config/other/farignore' ]
 let g:far#glob_mode='rg'
 
 let g:far#source='rgnvim'

@@ -1,6 +1,10 @@
-"Specify Specify a directory for plugins
-" - For Neovim: stdpath('data') . '/plugged'
-" - Avoid using standard Vim directory names like 'plugin'
+       " _             _       
+ " _ __ | |_   _  __ _(_)_ __  
+" | '_ \| | | | |/ _` | | '_ \ 
+" | |_) | | |_| | (_| | | | | |
+" | .__/|_|\__,_|\__, |_|_| |_|
+" |_|            |___/         
+
 call plug#begin('~/.vim/plugged')
 
 " Treesitter
@@ -46,6 +50,9 @@ Plug 'tpope/vim-commentary'
 " undotree
 Plug 'mbbill/undotree'
 
+" smoothie
+Plug 'psliwka/vim-smoothie'
+
 
 " " asyncrun
 " Plug 'skywind3000/asynctasks.vim'
@@ -71,6 +78,7 @@ Plug 'pechorin/any-jump.vim'
 Plug 'godlygeek/tabular'
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+Plug 'dkarter/bullets.vim'
 
 " grep
 " Plug 'dkprice/vim-easygrep'
@@ -104,6 +112,7 @@ Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to 
 Plug 'gcmt/wildfire.vim' " in Visual mode, type k' to select all text in '', or type k) k] k} kp
 
 " vim-snippets
+" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " lightline
@@ -122,12 +131,12 @@ Plug 'leafOfTree/vim-svelte-plugin'
 call plug#end()
 
 
-       " _             _       
- " _ __ | |_   _  __ _(_)_ __  
-" | '_ \| | | | |/ _` | | '_ \ 
-" | |_) | | |_| | (_| | | | | |
-" | .__/|_|\__,_|\__, |_|_| |_|
-" |_|            |___/         
+       " _             _                              __ _       
+ " _ __ | |_   _  __ _(_)_ __         ___ ___  _ __  / _(_) __ _ 
+" | '_ \| | | | |/ _` | | '_ \ _____ / __/ _ \| '_ \| |_| |/ _` |
+" | |_) | | |_| | (_| | | | | |_____| (_| (_) | | | |  _| | (_| |
+" | .__/|_|\__,_|\__, |_|_| |_|      \___\___/|_| |_|_| |_|\__, |
+" |_|            |___/                                     |___/ 
 
 source ~/.vim/vconf/base.vim
 source ~/.vim/vconf/legacy.vim
